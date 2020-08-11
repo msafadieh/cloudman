@@ -1,5 +1,6 @@
 Django>=2.2.13,<3.0
-djangorestframework==3.9.3
+djangorestframework==3.11.1
+drf-yasg==1.17.1 # swagger
 gunicorn[gevent]
 # moto==1.1.11
 # for eclipse debugging

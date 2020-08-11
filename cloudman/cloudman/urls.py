@@ -17,10 +17,14 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls import url
-from rest_framework.schemas import get_schema_view
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
-schema_view = get_schema_view(title='CloudMan API', url=settings.REST_SCHEMA_BASE_URL,
-                              urlconf='cloudman.urls')
+schema_view = get_schema_view(
+   openapi.Info(title="Cloudman API", default_version="v1"),
+   urlconf='cloudman.urls',
+   url=settings.REST_SCHEMA_BASE_URL,
+)
 
 urlpatterns = [
     url(r'^cloudman/cloudlaunch/cloudlaunch/api/v1/auth/user/', include('cloudlaunchserver.urls')),
@@ -28,7 +32,7 @@ urlpatterns = [
     url(r'^cloudman/api/v1/', include('clusterman.urls')),
     url(r'^cloudman/api/v1/', include('helmsman.urls')),
     url(r'^cloudman/api/v1/', include('projman.urls')),
-    url(r'^cloudman/api/v1/schema/$', schema_view),
+    url(r'^cloudman/api/v1/schema/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     url(r'^cloudman/openid/', include('djangooidc.urls')),
 ]
 
